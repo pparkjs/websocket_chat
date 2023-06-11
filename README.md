@@ -130,4 +130,13 @@ CREATE TABLE UNREADMEMBER(
         REFERENCES CHATMESSAGE(MESSAGE_ID)
 );
 ```
-## 
+## 시연
+### 실시간 알림 (Polling 방식)
+3초 주기로 알림을 계속 가져온다.<br>
+![실시간 알림](https://github.com/pparkjs/websocket_chat/assets/107859870/3f8ad170-f14b-4723-ae13-3c0362839541)
+
+
+### 실시간 스터디채팅 (Websocket 방식)
+실시간 채팅이 가능하며 실시간으로 안읽은 메시지 개수를 가져오고, 메시지 별로 채팅방에 속한 사람에 대한 읽음 처리가 실시간으로 가능하게 구현함<br>
+![실시간 채팅](https://github.com/pparkjs/websocket_chat/assets/107859870/ca974d73-a86b-4a3a-91cf-8a330f0fc478)
+
