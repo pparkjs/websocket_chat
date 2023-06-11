@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Chat">
+ 
+ 	<!-- 해당 채팅방의 메시지 리스트 가져오기 -->
+ 	<select id="messageList" parameterType="int" resultType="chatmessageVO">
+ 		select * from chatmessage where st_no = #{stNo}
+ 	</select>
+ 	
+ 	<!-- 메시지 등록하기 -->
+ 	<insert id="insertMessage" parameterType="chatmessageVO" useGeneratedKeys="true">
+ 		<selectKey keyProperty="messageId" resultType="int" order="BEFORE">
+ 			select seq_chatmessage.nextval from dual
+ 		</selectKey>
+ 		insert into chatmessage values(#{messageId}, #{stNo}, #{messageContent}, default, #{userId}, #{unreadCount}, #{userName})
+ 	</insert>
+ 	
+ 	<!-- 나를 제외한 해당 방에 속한 사람들 안읽은 메시지 개수 업데이트 -->
+ 	<update id="updateMessageCountExceptMe" parameterType="chatmessageVO">
+	 	update studymember 
+	 	set
+	 	   msg_count = msg_count + 1
+	 	where user_id != #{userId} 
+	 	and st_no = #{stNo}
+ 	</update>
+ 	
+ 	<!-- 해당 유저가 속하는 채팅방 가져오기 -->
+ 	<select id="getStudyGroupListById" parameterType="String" resultType="studygroupVO">
+ 		select A.*, B.msg_count from studygroup A, studymember B
+		where A.st_no = B.st_no and
+      	B.user_id = #{userId}
+ 	</select>
+ 	
+ 	<!-- study인원 목록 가져오기 -->
+ 	<select id="getStudyMember" parameterType="int" resultType="studymemberVO">
+ 		select * from studymember
+ 		where st_no = #{stNo}
+ 	</select>
+ 	
+ 	<!-- 채팅들 읽음 처리 -->
+ 	<update id="readChatMessage" parameterType="chatmessageVO">
+ 		update studymember
+ 		set
+ 			msg_count = 0
+ 		where user_id = #{userId}
+ 		and st_no = #{stNo}
+ 	</update>
+ 	
+ 	<!-- 해당 유저의 안읽은 메시지 개수 -->
+ 	<select id="getChatCnt" parameterType="string" resultType="int">
+ 		select nvl(sum(msg_count), 0) cnt from studymember
+		where user_id = #{userId}
+ 	</select>
+ 	
+ 	<!-- 채팅방 인원수 가져오기 -->
+ 	<select id="getMemberCount" parameterType="int" resultType="int">
+ 		select count(*) cnt from studymember
+		where st_no = #{stNo}
+ 	</select>
+ 	
+ 	<!-- 메시지 안읽은 유저 테이블에 삽입 -->
+ 	<insert id="insertUnreadMember" parameterType="hashMap">
+ 		insert into unreadmember (
+ 			message_id, user_id, st_no
+ 		) values(
+ 			#{messageId}, #{userId}, #{stNo}
+ 		)
+ 	</insert>
+
+	<!-- 메시지 안읽은 개수 가져오기 -->
+	<select id="getUnreadCntByUser" parameterType="chatmessageVO" resultType="int">
+		select message_id from unreadmember
+		where st_no = #{stNo} 
+		and user_id = #{userId}
+	</select>
+	
+	<!-- 방안에서 해당 메시지 읽음 카운트 -1 처리 -->
+	<update id="readMessageInRoom" parameterType="chatmessageVO">
+		update chatmessage
+		set
+			unread_count = unread_count - 1
+		where st_no = #{stNo}
+		and message_id = #{messageId}
+	</update>
+	
+	<!-- 안읽은 메시지 테이블에서 해당 방에 대한 유저의 행 삭제 -->
+	<delete id="deleteUnreadMsg" parameterType="chatmessageVO">
+		delete from unreadmember
+		where st_no = #{stNo}
+		and user_id = #{userId}
+	</delete>
+ </mapper>
