@@ -1,6 +1,6 @@
 ## 개요
 Spring을 이용한 프로젝트를 하기 앞서 프로젝트에 도움을 주고자 해당 시나리오를 작성해 실시간 알림과 채팅을 구현하였습니다.<br><br>
-시나리오 대로 구현한 실시간 스터디 채팅 및 실시간 알림에 대한 상세 내용는 <a href="https://silicon-vegetable-8cc.notion.site/WebSocket-29d0826c86ff4433ae21a7df0aa604fb?pvs=4">Notion</a>을 통해 정리하였습니다.
+시나리오 대로 구현한 실시간 스터디 채팅 및 실시간 알림에 대한 상세 내용는 <a href="https://silicon-vegetable-8cc.notion.site/WebSocket-29d0826c86ff4433ae21a7df0aa604fb?pvs=4">Notion</a>을 통해 정리하였습니다!
 ## 웹소켓 기본흐름
 1. 클라이언트에서 웹소켓에 접속 (**`onopen메서드`**)
 2. 웹소켓 Handler는 `afterConnectionEstablished` 메서드를 통해 접속한 세션을 만들어 놓은 컬렉션에 담는다.
