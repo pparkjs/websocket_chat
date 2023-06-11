@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>kr.or</groupId>
+	<artifactId>ddit</artifactId>
+	<name>Spring_ChatTest</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<properties>
+		<java-version>1.8</java-version>
+		<org.springframework-version>5.3.25</org.springframework-version>
+		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+	</properties>
+	<dependencies>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				 </exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+				
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>	
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+				
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+	   <!-- lombok 라이브러리 추가 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- 채팅 위한 socket -->
+        <dependency> 
+            <groupId>org.springframework</groupId> 
+            <artifactId>spring-websocket</artifactId> 
+            <version>${org.springframework-version}</version> 
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+        <!-- // 채팅 위한 socket -->
+        
+		<!-- Database settings -->
+		
+		<!-- 
+			mybatis는 xml로 쿼리를 작성하게 해주는 라이브러리
+			쿼리를 문자열로 코딩하지 않고 xml을 사용해서 관리하게 해준다.
+		 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.4</version>
+		</dependency>
+		<!-- 
+			mybatis-spring은 스프링 mybatis를 연동하게 해주는 라이브러리
+		 -->
+		 <dependency>
+		 	<groupId>org.mybatis</groupId>
+		 	<artifactId>mybatis-spring</artifactId>
+		 	<version>2.0.4</version>
+		 </dependency>
+		 <!-- 
+		 	jdbc는 자바에게 데이터베이스에 접속하기 위한 api 
+		 	spring-jdbc는 스프링에서 jdbc를 통해 데이터베이스와 연결할 수 있게 해준다.
+		  -->
+		 <dependency>
+		 	<groupId>org.springframework</groupId>
+		 	<artifactId>spring-jdbc</artifactId>
+		 	<version>${org.springframework-version}</version>
+		 </dependency>
+		 <!-- 
+		 	dbcp2는 데이터베이스 커넥션 풀
+		 	데이터베이스 서버와 웹 서버는 서로 다른 프로그램이고,
+		 	실무에서는 전혀 다른 컴퓨터에 설치되어 있을 가능성이 높음
+		 	서로 다른 컴퓨터와 다른 프로그램이 통신을 하기 위해서는 서로 연결을 맺는 과정이 필요
+		 	미리 데이터베이스와 연동하기 위한 길을 만들어놓은 라이브러리
+		 	요즘은 dbcp2보다 hikaricp를 자주 사용하기도 함
+		  -->
+		 <dependency>
+		 	<groupId>org.apache.commons</groupId>
+		 	<artifactId>commons-dbcp2</artifactId>
+		 	<version>2.7.0</version>
+		 </dependency>
+		 
+		 <!-- 
+		 	로깅을 위한 라이브러리
+		 	데이터베이스에 연동하는 쿼리를 콘솔이나 파일 로그로 볼 수 있게 해준다.
+		  -->
+		 <dependency>
+		 	<groupId>org.bgee.log4jdbc-log4j2</groupId>
+		 	<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+		 	<version>1.16</version>
+		 </dependency>
+		 
+		 <!-- 
+		 	oracle 데이터베이스 연동 라이브러리
+		  -->
+		 <dependency>
+		 	<groupId>com.oracle.database.jdbc</groupId>
+		 	<artifactId>ojdbc8</artifactId>
+		 	<version>21.1.0.0</version>
+		 </dependency>
+		<!-- Database settings End-->
+		
+		<dependency>        
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.6</version>
+		</dependency>
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>        
+	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+                    </additionalProjectnatures>
+                    <additionalBuildcommands>
+                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+                    </additionalBuildcommands>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>org.test.int1.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

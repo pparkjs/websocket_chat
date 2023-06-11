@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="StudyGroup">
+ 	<!-- study모집 게시글 list 가져오기 -->
+ 	<select id="getStudyGroupList" resultType="studygroupVO">
+ 		select * from studygroup
+ 		order by st_no desc
+ 	</select>
+ 	
+ 	<!-- 자신을 뺀 모든 유저 리스트 가져오기 -->
+ 	<select id="getUserList" resultType="userVO" parameterType="String">
+ 		select * from chatuser where user_Id != #{userId}
+ 	</select>
+ 	
+ 	<!-- Study 모집 게시글 등록 시 Alarm 테이블에도 등록 -->
+ 	<insert id="insertAlarm" parameterType="String">
+	 	insert into alarm values (seq_alarm.nextval, #{userId}, 'newStudy', sysdate, '${senderName}님의 게시글 등록', #{stNo})
+ 	</insert>
+ 	
+ 	<!-- study 모집 게시글 등록 쿼리 -->
+ 	<insert id="insertStudy" parameterType="studygroupVO" useGeneratedKeys="true">
+	 	<selectKey keyProperty="stNo" resultType="int" order="BEFORE">
+	 		select seq_studygroup.nextval from dual
+	 	</selectKey>
+ 		insert into studygroup
+ 			 values(#{stNo}, #{stTitle}, #{userId}, sysdate, #{userName})
+ 	</insert>
+ 	
+ 	<!-- 스터디 멤버추가 쿼리 -->
+ 	<insert id="addStudyMember" parameterType="studygroupVO">
+ 		insert into studymember
+ 			values(#{stNo}, #{userId}, #{userName}, #{authRole}, 0)
+ 	</insert>
+ 	
+ 	<!-- 해당 아이디에 대한 안읽은 alarm 리스트 가져오기 -->
+ 	<select id="getAlarmInfo" parameterType="String" resultType="alarmVO" >
+ 		select * from alarm where user_id = #{userId}
+ 	</select>
+ 	
+ 	<!-- 읽은 알람 지우기 쿼리 -->
+ 	<delete id="deleteAlarm" parameterType="int">
+ 		delete from alarm where alarm_no = #{alarmNo}
+ 	</delete>
+ 	
+ 	<!-- 스터디 가입하기 쿼리 -->
+ 	<insert id="joinStudyGroup" parameterType="studymemberVO">
+ 		insert into studymember values(#{stNo}, #{userId}, #{userName}, #{authRole}, 0)
+ 	</insert>
+ </mapper>
